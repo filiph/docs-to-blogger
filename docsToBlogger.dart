@@ -8,6 +8,7 @@ void main() {
   ButtonElement convertBtn = document.query("#convertBtn");
   TextAreaElement inputTextEl = document.query("#inputText");
   TextAreaElement strongIdEl = document.query("#strongId");
+  TextAreaElement emIdEl = document.query("#emId");
   TextAreaElement outputTextEl = document.query("#outputText");
   DivElement outputTextDivEl = document.query("#outputTextDiv");
 

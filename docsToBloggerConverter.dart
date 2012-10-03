@@ -1,5 +1,6 @@
 #library('docsToBlogger');
 
+#import('html_entities.dart');
 
 class DocsToBloggerConverter {
   static final RegExp _header = const RegExp(@"<html.*</head><body.*?>");
@@ -15,7 +16,7 @@ class DocsToBloggerConverter {
   DocsToBloggerConverter() {
   }
 
-  String convert(String input, [String strongId="c3"]) {
+  String convert(String input, [String strongId="c3", String emId="c2"]) {
     StringBuffer strBuf = new StringBuffer();
     int index = 0;
 
@@ -32,12 +33,20 @@ class DocsToBloggerConverter {
 
       if (classes.contains(strongId.trim())) {
         strBuf.add("<strong>");
-        strBuf.add(m.group(groupCount));
-        //strBuf.add("${groupCount -1}");
-        strBuf.add("</strong>");
-      } else {
-        strBuf.add(m.group(groupCount));
       }
+      if (classes.contains(emId.trim())) {
+        strBuf.add("<em>");
+      }
+      
+      strBuf.add(m.group(groupCount));
+      
+      if (classes.contains(emId.trim())) {
+        strBuf.add("</em>");
+      }
+      if (classes.contains(strongId.trim())) {
+        strBuf.add("</strong>");
+      }
+
       index = index + m.end();
       m = _spanClassC.firstMatch(input.substring(index));
     }
@@ -45,9 +54,9 @@ class DocsToBloggerConverter {
     // add the rest
     strBuf.add(input.substring(index));
 
-    input = strBuf.toString();
+    String intermediary = strBuf.toString();
 
-    String output = input
+    String outputWithEntities = intermediary
         .replaceAll(_header, "")
         .replaceAll(_footer, "")
         .replaceAll(_spanBegin, "")
@@ -56,6 +65,8 @@ class DocsToBloggerConverter {
         .replaceAll(_cssClass, "")
         .replaceAll(_pBegin, "")
         .replaceAll(_lineEnd, "\n");
+    
+    String output = HtmlEntities.collapseSafeEntities(outputWithEntities);
 
     return output;
   }
