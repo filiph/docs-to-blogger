@@ -16,7 +16,7 @@ class DocsToBloggerConverter {
   DocsToBloggerConverter() {
   }
 
-  String convert(String input, [String strongId="c3", String emId="c2"]) {
+  String convert(String input, [String strongId="c3", String emId="c2", bool removePTags=true]) {
     StringBuffer strBuf = new StringBuffer();
     int index = 0;
 
@@ -62,11 +62,17 @@ class DocsToBloggerConverter {
         .replaceAll(_spanBegin, "")
         .replaceAll(_spanEnd, "")
         .replaceAll(_aname, "")
-        .replaceAll(_cssClass, "")
-        .replaceAll(_pBegin, "")
-        .replaceAll(_lineEnd, "\n");
+        .replaceAll(_cssClass, "");
+        
+    if (removePTags) {
+      outputWithEntities = outputWithEntities
+          .replaceAll(_pBegin, "")
+          .replaceAll(_lineEnd, "\n");
+    } else {
+      outputWithEntities = outputWithEntities.replaceAll("</p>", "</p>\n\n");
+    }
     
-    String output = HtmlEntities.collapseSafeEntities(outputWithEntities);
+    String output = HtmlEntities.collapseSafeEntities(outputWithEntities, useAll:false);
 
     return output;
   }
