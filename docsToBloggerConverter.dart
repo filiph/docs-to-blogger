@@ -69,7 +69,8 @@ class DocsToBloggerConverter {
         .replaceAll(_spanBegin, "")
         .replaceAll(_spanEnd, "")
         .replaceAll(_aname, "")
-        .replaceAll(_cssClass, "");
+        .replaceAll(_cssClass, "")
+        .replaceAll("<p></p>", "");
     
 //    print("${stopwatch.elapsedInMs()}ms - Replaced header, footer, etc.");
     

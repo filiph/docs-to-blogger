@@ -1,0 +1,6 @@
+name: docs_to_blogger
+version: 0.1.0
+author: Filip Hracek <filip.hracek@gmail.com>
+dependencies:
+  args:
+    sdk: args
