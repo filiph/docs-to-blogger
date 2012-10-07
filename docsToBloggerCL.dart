@@ -11,6 +11,10 @@ void main() {
   parser.addFlag("ptags", abbr:"p", defaultsTo:false);
 
   var results = parser.parse(new Options().arguments);
+  if (results.rest.length < 1) {
+    print(parser.getUsage());
+    return;
+  }
   var filename = results.rest[0];
   
   new File(filename).open().then((RandomAccessFile f) {
