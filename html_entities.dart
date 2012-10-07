@@ -432,6 +432,146 @@ class HtmlEntities {
     @"ŕ" : "&#341;"
 
   };
+  
+  static final Map<String,String> safeEntitiesToCharsSubset = const {
+    // from wikipedia: http://en.wikipedia.org/wiki/List_of_XML_and_HTML_character_entity_references
+    "\"" : "&quot;",
+    "&apos;" : @"'",
+    
+    "&Agrave;" : @"À",
+    "&Aacute;" : @"Á",
+    "&Acirc;" : @"Â",
+    "&Atilde;" : @"Ã",
+    "&Auml;" : @"Ä",
+    "&Aring;" : @"Å",
+    "&AElig;" : @"Æ",
+    "&Ccedil;" : @"Ç",
+    "&Egrave;" : @"È",
+    "&Eacute;" : @"É",
+    "&Ecirc;" : @"Ê",
+    "&Euml;" : @"Ë",
+    "&Igrave;" : @"Ì",
+    "&Iacute;" : @"Í",
+    "&Icirc;" : @"Î",
+    "&Iuml;" : @"Ï",
+    "&ETH;" : @"Ð",
+    "&Ntilde;" : @"Ñ",
+    "&Ograve;" : @"Ò",
+    "&Oacute;" : @"Ó",
+    "&Ocirc;" : @"Ô",
+    "&Otilde;" : @"Õ",
+    "&Ouml;" : @"Ö",
+    "&times;" : @"×",
+    "&Oslash;" : @"Ø",
+    "&Ugrave;" : @"Ù",
+    "&Uacute;" : @"Ú",
+    "&Ucirc;" : @"Û",
+    "&Uuml;" : @"Ü",
+    "&Yacute;" : @"Ý",
+    "&THORN;" : @"Þ",
+    "&szlig;" : @"ß",
+    "&agrave;" : @"à",
+    "&aacute;" : @"á",
+    "&acirc;" : @"â",
+    "&atilde;" : @"ã",
+    "&auml;" : @"ä",
+    "&aring;" : @"å",
+    "&aelig;" : @"æ",
+    "&ccedil;" : @"ç",
+    "&egrave;" : @"è",
+    "&eacute;" : @"é",
+    "&ecirc;" : @"ê",
+    "&euml;" : @"ë",
+    "&igrave;" : @"ì",
+    "&iacute;" : @"í",
+    "&icirc;" : @"î",
+    "&iuml;" : @"ï",
+    "&eth;" : @"ð",
+    "&ntilde;" : @"ñ",
+    "&ograve;" : @"ò",
+    "&oacute;" : @"ó",
+    "&ocirc;" : @"ô",
+    "&otilde;" : @"õ",
+    "&ouml;" : @"ö",
+    "&divide;" : @"÷",
+    "&oslash;" : @"ø",
+    "&ugrave;" : @"ù",
+    "&uacute;" : @"ú",
+    "&ucirc;" : @"û",
+    "&uuml;" : @"ü",
+    "&yacute;" : @"ý",
+    "&thorn;" : @"þ",
+    "&yuml;" : @"ÿ",
+    "&OElig;" : @"Œ",
+    "&oelig;" : @"œ",
+    "&Scaron;" : @"Š",
+    "&scaron;" : @"š",
+    "&Yuml;" : @"Ÿ",
+    "&fnof;" : @"ƒ",
+    
+    "&mdash;" : @"—",
+    "&lsquo;" : @"‘",
+    "&rsquo;" : @"’",
+    "&sbquo;" : @"‚",
+    "&ldquo;" : @"“",
+    "&rdquo;" : @"”",
+    "&bdquo;" : @"„",
+    
+    "&hellip;" : @"…",
+    
+    "&prime;" : @"′",
+    "&Prime;" : @"″",
+    "&lsaquo;" : @"‹",
+    "&rsaquo;" : @"›",
+    
+    "&euro;" : @"€",
+    
+    "&trade;" : @"™",
+    
+    "&larr;" : @"←",
+    "&uarr;" : @"↑",
+    "&rarr;" : @"→",
+    "&darr;" : @"↓",
+    "&harr;" : @"↔",
+    "&crarr;" : @"↵",
+    "&lArr;" : @"⇐",
+    "&uArr;" : @"⇑",
+    "&rArr;" : @"⇒",
+    "&dArr;" : @"⇓",
+    "&hArr;" : @"⇔",
+    
+    // CZECH
+    "&#268;" : @"Č",
+    "&#269;" : @"č",
+    "&#270;" : @"Ď",
+    "&#271;" : @"ď",
+    "&#317;" : @"Ľ",
+    "&#318;" : @"ľ",
+    "&#327;" : @"Ň",
+    "&#328;" : @"ň",
+    "&#344;" : @"Ř",
+    "&#345;" : @"ř",
+    //"&#352;" : @"Š",
+    //"&#353;" : @"š",
+    "&#356;" : @"Ť",
+    "&#357;" : @"ť",
+    "&#381;" : @"Ž",
+    "&#382;" : @"ž",
+    "&#366;" : @"Ů",
+    "&#367;" : @"ů",
+    //"&Auml;" : @"Ä",
+    //"&auml;" : @"ä",
+    "&#282;" : @"Ě",
+    "&#283;" : @"ě",
+    //"&Ocirc;" : @"Ô",
+    //"&ocirc;" : @"ô",
+    "&#313;" : @"Ĺ",
+    "&#314;" : @"ĺ",
+    "&#340;" : @"Ŕ",
+    "&#341;" : @"ŕ"
+  };
+  
+  
 
   static String toHtml(String s) {
     unsafeEntities.forEach((charUtf, entity) {
@@ -443,11 +583,35 @@ class HtmlEntities {
     return s;
   }
   
-  static String collapseSafeEntities(String s, [bool useAll = true]) {
-    var entities = (useAll ? safeEntities : safeEntitiesSubset);
-    safeEntities.forEach((charUtf, entity) {
-      s = s.replaceAll(entity, charUtf);
-    });
-    return s;
+  static final RegExp _htmlEntity = const RegExp(@"&(\w{2,8}|#\d{2,4});");
+  
+  static String collapseSafeEntities(String input, [bool useAll = true]) {
+//    var entities = (useAll ? safeEntities : safeEntitiesSubset);
+//    safeEntities.forEach((charUtf, entity) {
+//      s = s.replaceAll(entity, charUtf);
+//    });
+    
+    StringBuffer strBuf = new StringBuffer();
+    int index = 0;
+
+    // find <span class="c2">...</span> and convert to <strong>...</strong>
+    Match m = _htmlEntity.firstMatch(input);
+    while (m != null) {
+      strBuf.add(input.substring(index,index + m.start()));
+
+      if (safeEntitiesToCharsSubset.containsKey(m.group(0))) {
+        strBuf.add(safeEntitiesToCharsSubset[m.group(0)]);
+      } else {
+        strBuf.add(m.group(0));
+      }
+
+      index = index + m.end();
+      m = _htmlEntity.firstMatch(input.substring(index));
+    }
+    
+    // add the rest
+    strBuf.add(input.substring(index));
+    
+    return strBuf.toString();
   }
 }

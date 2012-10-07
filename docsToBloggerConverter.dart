@@ -17,6 +17,9 @@ class DocsToBloggerConverter {
   }
 
   String convert(String input, [String strongId="c3", String emId="c2", bool removePTags=true]) {
+//    Stopwatch stopwatch = new Stopwatch()..start();
+//    print("${stopwatch.elapsedInMs()}ms - Starting conversion");
+    
     StringBuffer strBuf = new StringBuffer();
     int index = 0;
 
@@ -53,8 +56,12 @@ class DocsToBloggerConverter {
 
     // add the rest
     strBuf.add(input.substring(index));
+    
+//    print("${stopwatch.elapsedInMs()}ms - Found and replaced c{n} spans");
 
     String intermediary = strBuf.toString();
+    
+//    print("${stopwatch.elapsedInMs()}ms - Converted to intermediary string");
 
     String outputWithEntities = intermediary
         .replaceAll(_header, "")
@@ -63,7 +70,9 @@ class DocsToBloggerConverter {
         .replaceAll(_spanEnd, "")
         .replaceAll(_aname, "")
         .replaceAll(_cssClass, "");
-        
+    
+//    print("${stopwatch.elapsedInMs()}ms - Replaced header, footer, etc.");
+    
     if (removePTags) {
       outputWithEntities = outputWithEntities
           .replaceAll(_pBegin, "")
@@ -72,8 +81,12 @@ class DocsToBloggerConverter {
       outputWithEntities = outputWithEntities.replaceAll("</p>", "</p>\n\n");
     }
     
+//    print("${stopwatch.elapsedInMs()}ms - Removed <p> tags.");
+    
     String output = HtmlEntities.collapseSafeEntities(outputWithEntities, useAll:false);
 
+//    print("${stopwatch.elapsedInMs()}ms - Collapsed entities.");
+    
     return output;
   }
 }
