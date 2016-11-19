@@ -16,6 +16,7 @@ class DocsToBloggerConverter {
 
   DocsToBloggerConverter() {}
 
+  // TODO: resolve google.com/url?=... links
   String convert(String input,
       {String strongId: "c3", String emId: "c2", bool removePTags: true}) {
 //    Stopwatch stopwatch = new Stopwatch()..start();

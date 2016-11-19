@@ -2,6 +2,17 @@ import 'dart:html';
 
 import 'package:docs_to_blogger/docsToBloggerConverter.dart';
 
+class LooseNodeValidator implements NodeValidator {
+  LooseNodeValidator();
+
+  @override
+  bool allowsAttribute(Element element, String attributeName, String value) =>
+      true;
+
+  @override
+  bool allowsElement(Element element) => true;
+}
+
 void main() {
   DocsToBloggerConverter converter = new DocsToBloggerConverter();
 
@@ -22,9 +33,11 @@ void main() {
     outputTextEl.value = convertedText;
 
     if (removePTagsEl.checked) {
-      outputTextDivEl.innerHtml = convertedText.replaceAll("\n", "<br/>");
+      outputTextDivEl.setInnerHtml(convertedText.replaceAll("\n", "<br/>"),
+          validator: new LooseNodeValidator());
     } else {
-      outputTextDivEl.innerHtml = convertedText;
+      outputTextDivEl.setInnerHtml(convertedText,
+          validator: new LooseNodeValidator());
     }
   });
 
