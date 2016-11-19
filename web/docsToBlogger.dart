@@ -1,6 +1,6 @@
-#import('dart:html');
+import 'dart:html';
 
-#import('docsToBloggerConverter.dart');
+import 'package:docs_to_blogger/docsToBloggerConverter.dart';
 
 void main() {
   DocsToBloggerConverter converter = new DocsToBloggerConverter();
@@ -13,7 +13,7 @@ void main() {
   TextAreaElement outputTextEl = document.query("#outputText");
   DivElement outputTextDivEl = document.query("#outputTextDiv");
   
-  convertBtn.on.click.add((e) {
+  convertBtn.onClick.listen((e) {
     String convertedText = converter.convert(
             inputTextEl.value,
             strongId:strongIdEl.value,
@@ -24,17 +24,17 @@ void main() {
     outputTextEl.value = convertedText;
     
     if (removePTagsEl.checked) {
-      outputTextDivEl.innerHTML = convertedText.replaceAll("\n", "<br/>");
+      outputTextDivEl.innerHtml = convertedText.replaceAll("\n", "<br/>");
     } else {
-      outputTextDivEl.innerHTML = convertedText;
+      outputTextDivEl.innerHtml = convertedText;
     }
   });
-  
-  inputTextEl.on.drop.add((MouseEvent e) {
+
+  inputTextEl.onDrop.listen((MouseEvent e) {
     File inFile = e.dataTransfer.files[0];
     FileReader reader = new FileReader();
     reader.readAsText(inFile.slice());
-    reader.on.loadEnd.add((_) {
+    reader.onLoadEnd.listen((_) {
       inputTextEl.value = reader.result;
     });
     e.preventDefault();
