@@ -5,13 +5,13 @@ import 'package:docs_to_blogger/docsToBloggerConverter.dart';
 void main() {
   DocsToBloggerConverter converter = new DocsToBloggerConverter();
 
-  ButtonElement convertBtn = document.query("#convertBtn");
-  TextAreaElement inputTextEl = document.query("#inputText");
-  TextAreaElement strongIdEl = document.query("#strongId");
-  TextAreaElement emIdEl = document.query("#emId");
-  InputElement removePTagsEl = document.query("#removePTags");
-  TextAreaElement outputTextEl = document.query("#outputText");
-  DivElement outputTextDivEl = document.query("#outputTextDiv");
+  ButtonElement convertBtn = document.querySelector("#convertBtn");
+  TextAreaElement inputTextEl = document.querySelector("#inputText");
+  TextAreaElement strongIdEl = document.querySelector("#strongId");
+  TextAreaElement emIdEl = document.querySelector("#emId");
+  InputElement removePTagsEl = document.querySelector("#removePTags");
+  TextAreaElement outputTextEl = document.querySelector("#outputText");
+  DivElement outputTextDivEl = document.querySelector("#outputTextDiv");
 
   convertBtn.onClick.listen((e) {
     String convertedText = converter.convert(inputTextEl.value,

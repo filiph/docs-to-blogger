@@ -12,7 +12,7 @@ void main(List<String> args) {
 
   var results = parser.parse(args);
   if (results.rest.length < 1) {
-    print(parser.getUsage());
+    print(parser.usage);
     return;
   }
   var filename = results.rest[0];
