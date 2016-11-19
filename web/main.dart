@@ -12,17 +12,15 @@ void main() {
   InputElement removePTagsEl = document.query("#removePTags");
   TextAreaElement outputTextEl = document.query("#outputText");
   DivElement outputTextDivEl = document.query("#outputTextDiv");
-  
+
   convertBtn.onClick.listen((e) {
-    String convertedText = converter.convert(
-            inputTextEl.value,
-            strongId:strongIdEl.value,
-            emId:emIdEl.value,
-            removePTags:(removePTagsEl.checked)
-    );
-    
+    String convertedText = converter.convert(inputTextEl.value,
+        strongId: strongIdEl.value,
+        emId: emIdEl.value,
+        removePTags: (removePTagsEl.checked));
+
     outputTextEl.value = convertedText;
-    
+
     if (removePTagsEl.checked) {
       outputTextDivEl.innerHtml = convertedText.replaceAll("\n", "<br/>");
     } else {
@@ -39,5 +37,4 @@ void main() {
     });
     e.preventDefault();
   });
-
 }
