@@ -1,6 +1,7 @@
 library docs_to_blogger;
 
 import 'html_entities.dart';
+import 'package:docs_to_blogger/redirect_skipper.dart';
 
 class DocsToBloggerConverter {
   static final RegExp _header = new RegExp(r"<html.*</head><body.*?>");
@@ -89,8 +90,10 @@ class DocsToBloggerConverter {
     String output =
         HtmlEntities.collapseSafeEntities(outputWithEntities, useAll: false);
 
+    String outputWithoutRedirects = skipGoogleRedirects(output);
+
 //    print("${stopwatch.elapsedInMs()}ms - Collapsed entities.");
 
-    return output;
+    return outputWithoutRedirects;
   }
 }
